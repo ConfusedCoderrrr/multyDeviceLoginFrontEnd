@@ -14,13 +14,13 @@ const VerifyOtpPage: React.FC = () => {
 
   const verifyOtp = async () => {
     axios
-      .post("http://172.17.0.1:5000/api/verify-user-otp", {
+      .post("https://multidevicebackend.onrender.com/api/verify-user-otp", {
         userOtp: otp,
         hashedOtp,
       })
       .then(() => {
         axios
-          .post("http://172.17.0.1:5000/api/register", {
+          .post("https://multidevicebackend.onrender.com/api/register", {
             email,
             password,
             role,

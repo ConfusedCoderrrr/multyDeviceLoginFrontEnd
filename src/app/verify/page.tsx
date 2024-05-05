@@ -25,7 +25,7 @@ const VerifyPage = () => {
       token: otp,
     };
     axios
-      .post("http://172.17.0.1:5000/api/verify-otp", {
+      .post("https://multidevicebackend.onrender.com/api/verify-otp", {
         userInfo,
       })
       .then((res) => {

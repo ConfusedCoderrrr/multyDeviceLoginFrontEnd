@@ -25,7 +25,7 @@ export default function Home() {
     } else {
       if (token) {
         axios
-          .get("http://172.17.0.1:5000/api/login-history", {
+          .get("https://multidevicebackend.onrender.com/api/login-history", {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -47,9 +47,8 @@ export default function Home() {
   }, [user]);
 
   const handleLogout = () => {
-    // /devices/glootu;
     axios
-      .delete("http://172.17.0.1:5000/api/devices/logout", {
+      .delete("https://multidevicebackend.onrender.com/api/devices/logout", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -76,11 +75,14 @@ export default function Home() {
     try {
       // Send a request to your backend API to logout the device
       await axios
-        .delete(`http://172.17.0.1:5000/api/devices/${deviceId}/logout`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
+        .delete(
+          `https://multidevicebackend.onrender.com/api/devices/${deviceId}/logout`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
         .then((res) => {
           setIsCurrentDevice(
             isCurrentDevice?.currentDeviceToken === currentDeviceToken

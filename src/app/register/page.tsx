@@ -23,7 +23,7 @@ const RegisterPage = () => {
     localStorage.setItem("tempRole", role);
 
     axios
-      .post("http://172.17.0.1:5000/api/generate-otp", {
+      .post("https://multidevicebackend.onrender.com/api/generate-otp", {
         to: email,
       })
       .then((res) => {

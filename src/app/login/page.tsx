@@ -18,7 +18,7 @@ const LoginPage = () => {
 
     setIsloading(true);
     axios
-      .post("http://172.17.0.1:5000/api/login", {
+      .post("https://multidevicebackend.onrender.com/api/login", {
         email: username,
         password,
         currentDeviceToken,

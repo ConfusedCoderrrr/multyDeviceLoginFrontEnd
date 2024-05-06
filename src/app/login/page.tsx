@@ -4,7 +4,6 @@ import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { InfinitySpin } from "react-loader-spinner";
-import { toast } from "react-toastify";
 
 const LoginPage = () => {
   const [username, setUsername] = useState("");
@@ -27,9 +26,6 @@ const LoginPage = () => {
       .then((res: any) => {
         setIsloading(false);
         const response = JSON.stringify(res);
-        toast.success("Login successful!", {
-          autoClose: 2000,
-        });
         localStorage.setItem("userdata", response);
         localStorage.setItem(
           "currentDeviceToken",

@@ -6,10 +6,15 @@ import React, { useState } from "react";
 const VerifyOtpPage: React.FC = () => {
   const [otp, setOtp] = useState("");
 
-  const email = localStorage.getItem("tempEmail");
-  const password = localStorage.getItem("tempPassword");
-  const hashedOtp = localStorage.getItem("otp");
-  const role = localStorage.getItem("tempRole");
+  const email =
+    typeof window !== "undefined" ? localStorage.getItem("tempEmail") : null;
+  const password =
+    typeof window !== "undefined" ? localStorage.getItem("tempPassword") : null;
+  const hashedOtp =
+    typeof window !== "undefined" ? localStorage.getItem("otp") : null;
+  const role =
+    typeof window !== "undefined" ? localStorage.getItem("tempRole") : null;
+
   const router = useRouter();
 
   const verifyOtp = async () => {
@@ -27,10 +32,12 @@ const VerifyOtpPage: React.FC = () => {
           })
           .then((res) => {
             router.push("/login");
-            localStorage.removeItem("tempEmail");
-            localStorage.removeItem("tempPassword");
-            localStorage.removeItem("tempRole");
-            localStorage.removeItem("otp");
+            if (typeof window !== "undefined") {
+              localStorage.removeItem("tempEmail");
+              localStorage.removeItem("tempPassword");
+              localStorage.removeItem("tempRole");
+              localStorage.removeItem("otp");
+            }
           })
           .catch((error: any) => {
             alert(`some error accured ${error.response.data}`);

@@ -3,14 +3,20 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import ReactPaginate from "react-paginate";
+import useLocalStorage from "../Utils/Customhooks";
+import { InfinitySpin } from "react-loader-spinner";
 
 const AdminPage = () => {
   const [users, setUsers] = useState([]);
   const [admin, setAdmin] = useState<any>();
   const router = useRouter();
-  const user: any = localStorage.getItem("userdata");
-  const userInfo = JSON.parse(user);
+  const [userData, setUserData, clearUserData] = useLocalStorage(
+    "userdata",
+    null
+  );
+  const userInfo: any = userData;
   const token = userInfo?.data?.token;
+  const [loading, setLoading] = useState(true);
 
   const [currentPage, setCurrentPage] = useState(0);
   const perPage = 10;
@@ -24,31 +30,42 @@ const AdminPage = () => {
   const currentUsers = users.slice(offset, offset + perPage);
 
   useEffect(() => {
-    const data = localStorage.getItem("userdata");
-    data && setAdmin(JSON.parse(data!)?.data);
-    if (!data || JSON.parse(data!).data?.userInfo?.role !== "admin") {
+    const data: any = userData;
+    data && setAdmin(data?.data);
+    if (!data || data?.data?.userInfo?.role !== "admin") {
       router.push("/login");
     } else {
+      setLoading(true);
       axios
-        .get("http://172.17.0.1:5000/api/admin/users", {
+        .get("https://multidevicebackend.onrender.com/api/admin/users", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         })
         .then((res: any) => {
           console.log(res.data);
-          setUsers(res.data);
+          setUsers(res.data.reverse());
+          setLoading(false);
         })
         .catch((error: any) => {
           console.log(error);
+          setLoading(false);
         });
     }
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("userdata");
+    clearUserData();
     router.push("/login");
   };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center absolute left-[45%] top-[35%]">
+        <InfinitySpin width="400" color="black" />
+      </div>
+    );
+  }
 
   return (
     <>
